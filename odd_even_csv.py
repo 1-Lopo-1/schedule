@@ -65,8 +65,6 @@ def even_odd_day():
 
         pd.DataFrame(odd).to_csv(f'csv_odd/{sub_str_group_number}odd(чётная неделя).csv', mode="w")
         pd.DataFrame(even).to_csv(f'csv_even/{sub_str_group_number}even(нечётная неделя).csv', mode="w")
-        pd.DataFrame(odd).to_csv(f'csv_odd/{k}.csv', mode="w")
-        pd.DataFrame(even).to_csv(f'csv_even/{k}.csv', mode="w")
 
 
 def main():
