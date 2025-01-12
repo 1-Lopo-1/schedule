@@ -1,4 +1,4 @@
-from add_even_csv import get_data
+from odd_even_csv import get_data
 from get import count_links
 from different_actions import create_dir, create_days_of_the_week
 
