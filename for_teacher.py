@@ -122,7 +122,15 @@ def teacher_csv():
         odd["преподаватель"].extend(list_classes[1])
 
         # Записываем в DataFrame словарь odd
-        df = pd.DataFrame(odd)
+        try:
+            df = pd.DataFrame(odd)
+        except Exception as ex:
+            print(ex)
+            print(odd)
+            print(len(odd))
+            for i in odd.values():
+                print(i)
+                print(len(i))
 
         df['day_num'] = df['день недели'].map(days_map)
 
@@ -164,7 +172,16 @@ def teacher_csv():
         even["название предмета"].extend(list_classes[0])
         even["преподаватель"].extend(list_classes[1])
 
-        df = pd.DataFrame(even)
+        try:
+            df = pd.DataFrame(even)
+        except Exception as ex:
+            print(ex)
+            print(even)
+            print(len(even))
+            for i in even.values():
+                print(i)
+                print(len(i))
+
         df['day_num'] = df['день недели'].map(days_map)
 
         # Преобразуем столбец 'пара' в категориальный тип с заданным порядком
@@ -189,13 +206,13 @@ def get_list_teacher():
                 try:
                     j = j.split("\n\n")
                     if len(j) == 2:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", ""))
+                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
                     elif len(j) == 3:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", ""))
-                        list_teacher.append(j[2].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", ""))
+                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                        list_teacher.append(j[2].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
                     elif len(j) == 4:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", ""))
-                        list_teacher.append(j[3].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", ""))
+                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                        list_teacher.append(j[3].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
                 except:
                     pass
 
