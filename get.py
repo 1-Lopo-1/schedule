@@ -74,12 +74,14 @@ def write_text_pdf_in_csv_file():
         full_data = []
         temp_list = []
 
-        with pdfplumber.open(f"pdf/file{i}.pdf") as file:
-            for page in file.pages:
-                tables = page.extract_table()
-                for table in tables:
-                    temp_list.append(table)
-
+        try:
+            with pdfplumber.open(f"pdf/file{i}.pdf") as file:
+                for page in file.pages:
+                    tables = page.extract_table()
+                    for table in tables:
+                        temp_list.append(table)
+        except:
+            pass 
         for j in range(len(temp_list)):
 
             if (j == len(temp_list) - 1 and
@@ -97,20 +99,23 @@ def write_text_pdf_in_csv_file():
 
         new_full_data = []
 
-        for j in range(2, len(full_data[0])):
-            temp_data = []
-            for k in range(len(full_data)):
-                if full_data[k][j] is None:
-                    if full_data[k-1][j] == "":
+        try:
+            for j in range(2, len(full_data[0])):
+                temp_data = []
+                for k in range(len(full_data)):
+                    if full_data[k][j] is None:
+                        if full_data[k-1][j] == "":
+                            temp_data.append("Пусто")
+                        else:
+                            temp_data.append(full_data[k-1][j].replace("\n", '\n\n'))
+                    elif full_data[k][j] == "":
                         temp_data.append("Пусто")
                     else:
-                        temp_data.append(full_data[k-1][j].replace("\n", '\n\n'))
-                elif full_data[k][j] == "":
-                    temp_data.append("Пусто")
-                else:
-                    temp_data.append(full_data[k][j].replace("\n", '\n\n'))
+                        temp_data.append(full_data[k][j].replace("\n", '\n\n'))
 
-            new_full_data.append(temp_data)
+                new_full_data.append(temp_data)
+        except:
+            pass
 
         df = pd.DataFrame(new_full_data)
 

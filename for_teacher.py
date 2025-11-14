@@ -90,28 +90,30 @@ def teacher_csv():
             "преподаватель": [],
         }
         # Второй цикл для того, чтобы получить количество файлов при помощи ссылок и пройтись по каждому файлу
-        for k in range(count_links()):
-            # Получаем текст из файла и форматируем его
-            list_full_data = get_data(pd.read_csv(f"csv_file/{k}.csv"))
-            # Третий цикл для прохода по ранее полученным данным (получаем список)
-            for i in list_full_data:
-                # Читаем список данных
-                for j in i[1::2]:
-                    # Использую try для избежания ошибок при появлении нулевых значений (None)
-                    try:
-                        # Преобразование текста из j для того чтобы в дальнейшем его было удобнее читать
-                        j = j.split("\n\n")
-                        # Проверка того содержится ли имя преподавателя в полученных значениях
-                        if d in j:
-                            # Записываем все данные во вспомогательные переменные
-                            right_day.append(days_of_week[counter])
-                            group_number.append(str(i[0]))
-                            vapor_number.append(full_vapor[counter % 5])
-                            add_list_classes(list_classes, j, d)
-                    except:
-                        pass
-                    counter += 1
-                counter = 0
+        try:
+            for k in range(count_links()):
+                # Получаем текст из файла и форматируем его
+                list_full_data = get_data(pd.read_csv(f"csv_file/{k}.csv"))
+                # Третий цикл для прохода по ранее полученным данным (получаем список)
+                for i in list_full_data:
+                    # Читаем список данных
+                    for j in i[1::2]:
+                        # Использую try для избежания ошибок при появлении нулевых значений (None)
+                        try:
+                            # Преобразование текста из j для того чтобы в дальнейшем его было удобнее читать
+                            j = j.split("\n\n")
+                            # Проверка того содержится ли имя преподавателя в полученных значениях
+                            if d in j:
+                                # Записываем все данные во вспомогательные переменные
+                                right_day.append(days_of_week[counter])
+                                group_number.append(str(i[0]))
+                                vapor_number.append(full_vapor[counter % 5])
+                                add_list_classes(list_classes, j, d)
+                        except:
+                            pass
+                        counter += 1
+                    counter = 0
+        except: pass
         # Записываем все вспомогательные данные в основной словарь
         odd["день недели"].extend(right_day)
         odd["номер пары"].extend(vapor_number)
@@ -149,21 +151,23 @@ def teacher_csv():
         group_number = []
         vapor_number = []
         # Повторяем действия выше (стоит потом сделать отдельную функцию)
-        for k in range(count_links()):
-            list_full_data = get_data(pd.read_csv(f"csv_file/{k}.csv"))
-            for i in list_full_data:
-                for j in i[2::2]:
-                    try:
-                        j = j.split("\n\n")
-                        if d in j:
-                            right_day.append(days_of_week[counter])
-                            group_number.append(str(i[0]))
-                            vapor_number.append(full_vapor[counter % 5])
-                            add_list_classes(list_classes, j, d)
-                    except:
-                        pass
-                    counter += 1
-                counter = 0
+        try:
+            for k in range(count_links()):
+                list_full_data = get_data(pd.read_csv(f"csv_file/{k}.csv"))
+                for i in list_full_data:
+                    for j in i[2::2]:
+                        try:
+                            j = j.split("\n\n")
+                            if d in j:
+                                right_day.append(days_of_week[counter])
+                                group_number.append(str(i[0]))
+                                vapor_number.append(full_vapor[counter % 5])
+                                add_list_classes(list_classes, j, d)
+                        except:
+                            pass
+                        counter += 1
+                    counter = 0
+        except: pass
         even["день недели"].extend(right_day)
         even["номер пары"].extend(vapor_number)
         even["группа"].extend(group_number)
@@ -195,26 +199,27 @@ def teacher_csv():
 
 def get_list_teacher():
     list_teacher = []
+    try:
+        for k in range(count_links()):
+            csv_file = pd.read_csv(f'csv_file/{k}.csv')
+            list_full_data = get_data(csv_file)
 
-    for k in range(count_links()):
-        csv_file = pd.read_csv(f'csv_file/{k}.csv')
-        list_full_data = get_data(csv_file)
+            for i in list_full_data:
 
-        for i in list_full_data:
-
-            for j in i:
-                try:
-                    j = j.split("\n\n")
-                    if len(j) == 2:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
-                    elif len(j) == 3:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
-                        list_teacher.append(j[2].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
-                    elif len(j) == 4:
-                        list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
-                        list_teacher.append(j[3].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
-                except:
-                    pass
+                for j in i:
+                    try:
+                        j = j.split("\n\n")
+                        if len(j) == 2:
+                            list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                        elif len(j) == 3:
+                            list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                            list_teacher.append(j[2].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                        elif len(j) == 4:
+                            list_teacher.append(j[1].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                            list_teacher.append(j[3].replace(" (2 п/г)", "").replace(" (1 п/г)", "").replace(" (1п/г)", "").replace(" (2п/г)", "").replace("- 1/п", ""))
+                    except:
+                        pass
+    except: pass
 
     return sorted(set(list_teacher))
 
