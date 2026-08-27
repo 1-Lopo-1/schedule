@@ -1,4 +1,5 @@
 Python v3.12.9
+
 Перед началом запуска проекта нужно:
 1) Скачать python
 2) После скачивания в терминале (ide) запустить команду pip install "-rschedule/requirements.txt"
